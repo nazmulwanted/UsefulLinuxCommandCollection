@@ -1,0 +1,191 @@
+1. Archiving and compressing file-
+===================================
+
+Archiving means combining many files to one file.
+Compressing means make a file smaller.
+
+Some popular tools for archiving and compressing files are -
+zip,tar,gzip,bzip,bzip2 etc.
+
+This tutorial is about archiving and compressing files in Linux system (specially in terminal).
+
+  i) First of all zip command. To zip a file-
+      zip <zip file name> <target file>
+     For example - to compress a file named wallpaper.png using zip-
+      zip wallpaper.zip wallpaper.png
+   
+     If we want to compress multiple files at once then-
+       zip file.zip file1.zip file2.zip file3.zip
+     [ Tip: useful command -> ls -lh]
+    
+    If we want to compress a folder named test then->
+      zip -r testFolder.zip test/
+
+    If we want to control the zip amount then use -0 to -9 after zip command.
+    If we want to zip a file with password protection on then ->
+      zip -e test.zip test.txt
+    [-p will show history.Keep that in mind that password encryption in zip is weak!]
+
+    To unzip a file : 
+     unzip -l test.zip
+
+    To unzip a file without error->
+     unzip -t test.zip
+
+  ii) Using gzip-> super popular tool in linux. Keep that in mind that it deletes the original file
+      after archiving and compressing it.
+      gzip test.txt
+      or gzip -c text.txt > text.txt.gz
+      [compress amount supported -- use -0 to -9 to control zip amount.]
+      same works for bzip2
+
+  iii) Using tar for archiving only->
+        'tar' also works with gzip and bzip2.
+        'tar'does not delete the original file after archiving.
+        'tar' file is bigger because it needs more info to archive a file.
+        tar -cf test.txt.tar test.txt
+        or 
+        tar -zcvf test.txt.tar.gz test.txt [to tar and gzip a file at once]
+        same goes for folder or directory. 
+        [-zcvf means gzip creates verbose file.]
+        If we want to use bzip instead of gzip then->
+          tar -jcvf test.txt.tar.gz test.txt
+
+        To extract tar file->
+          tar -zxvf test.txt.tar.gz
+
+2. Man for Manual
+==================
+
+  i) to search specific term -> /<searching topic>
+     press 'n' for next.
+  ii) another search tool in man page->
+      man -k <search term>
+      or
+      man -f <search term>
+  iii) keep updated man page about a command->
+      man -u <topic>
+     topic(some number) means category. total 8 category starting from 1.
+     1- system commands category like cd, ssh-agent etc.
+     2- low level system commands category like chmod, socket etc.
+     3- c library functions strcat etc.
+     4- special devices.
+     5- file related.
+     6- Games category.
+     7- miscellaneous.
+     8- system like mount , shut down etc.
+3. Networking tools Part 1
+==========================
+
+  i) ip a 
+  ii) ifconfig
+  iii) sudo ifconfig eth0 promisc [activate promiscuous mode to sniff data  packets]
+       ifconfig
+       sudo ifconfig eth0 -promisc [deactivate promiscuous mode]
+       ifconfig
+  iv) sudo ip link set dev eth0 promisc on
+      ip a
+      sudo ip link set dev eth0 promisc off 
+      ip a
+  v) to up/down interface->
+     ifconfig eth0 down
+     or
+     ip link set eth0 down
+  vi) ifconfig eth0 add/del <ip_address> [to add or delete ip address to the interface]
+      or
+      ip a add/del <ip_address>
+  vii) routing table:
+       route
+       or 
+       ip route show
+  vii) ifconfig -a
+       to know config of specific interface e.g eth0 then-
+       ifconfig eth0
+  viii) iwconfig [to know wireless interface]
+  ix) ping -c 4 8.8.8.8 [pings 4 times]
+   x) traceroute
+   xi) netstat -ie
+   xii) host www.google.com [finds out host's ip address.]
+
+4. apt[2014 project] or apt-get:
+================================
+  Application packaging tool - apt more advanced than apt-get.
+  i) sudo apt-cache search firefox [to search firefox related info]
+     or use apt
+     sudo apt search firefox
+  ii) for more information : apt --help, man apt
+      and  https://debian-handbook.info/browse/stable/index.html
+
+5. Working with storage media, iso images, and md5 checksums
+=============================================================
+  i) mount
+  ii) umount <device name>
+  iii) to mount a fixed file path-
+       mount -t vfat /dev/sda1 my_stuff/ [-t means file type which fat and my mounted storage 
+                                           sda1 and folder name my_stuff/]
+       then we can browse to folder. if we need to unmount then comeback to home folder and
+       then we can unmount the mounted storage.
+  iv) to format a storage media - use fdisk.
+       sudo fdisk /dev/sda1
+        it then goes to a fdisk prompt.
+       type 'p' for see partition table.
+       type 'q' to quit or 'm' to check for more menus.
+  v) to make a new file system-
+     sudo mkfs -t ext3 /dev/sda1
+ vi) to check filesystem or repair filesystem -
+     sudo fsck /dev/sda1
+ vii) to check md5 sum of a file-
+      md5sum file.iso 
+6. Package Management
+======================
+  sudo apt update
+  sudo apt install <package or application name>
+  sudo apt upgrade
+  sudo apt-cache search <package name> or apt search <package name>
+  sudo dpkg -i package.deb [using dpkg to install a package of deb format]
+  sudo apt install -f [forcefully install dependencies]
+   to remove-
+     sudo apt remove <package name>
+   to see lists of installed packages- 
+     dpkg --list
+     to show status of a package-
+     dpkg --status <package name>
+     apt-cache show <package name>
+     dpkg --search <package name>
+7. Customizing shell prompt
+==============================
+
+
+ echo $PS1 [to show user and computer name]
+
+ original_backup="$PS1" [to back up original command prompt]
+
+ PS1= [to show nothing in command prompt]
+
+ PS1="\$" [to show '$' sign only]
+
+ PS1="\[\033[0;35m\]\u@\h:\w$ " [color change]
+
+ PS1="\[\033[1;35m\]\u@\[\033[1;36m\]\h:\[\033[1;32m\]\w\[\033[1;37m\]$ " [color change]
+
+ End the line with \[\033[0m\] to make it a black background again
+
+ Save your new lines to the bashrc file as: PS1="\[\033[1;35m\]\u@\[\033[1;36m\]\h:\[\033[1;32m\]\w\[\033[1;37m\]$ "
+
+ export PS1
+
+ http://ezprompt.net/
+
+8. Familiar with Vi
+====================
+
+  improved version of Vi is Vim which means Vi improved.
+  to enter into vim or vi type - vi
+  to quit type ->  :q or :q!
+  there is two mode - first is command mode which writes commands and another is normal mode
+  which is keyboard output to file.
+  to write into a file for example - example.txt->
+  vi example.txt
+  then press 'i' to enter into insert mode and then type whatever you like.
+  to save it first press 'esc' to enter into command mode and then type ':w' 
+  
