@@ -121,7 +121,7 @@ This tutorial is about archiving and compressing files in Linux system (speciall
   i) mount
   ii) umount <device name>
   iii) to mount a fixed file path-
-       mount -t vfat /dev/sda1 my_stuff/ [-t means file type which fat and my mounted storage 
+       mount -t vfat /dev/sda1 my_stuff/ [-t means file type which is 'FAT' and my mounted storage 
                                            sda1 and folder name my_stuff/]
        then we can browse to folder. if we need to unmount then comeback to home folder and
        then we can unmount the mounted storage.
